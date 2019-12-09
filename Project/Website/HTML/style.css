@@ -56,16 +56,27 @@
   text-decoration: none;
   z-index: 2;
 }
-#myVideo {
-  position: fixed;
-  right: 0;
+.video-container {
+  position: absolute;
+  top: 0;
   bottom: 0;
-  min-width: : 100%;
-  min-height: 100%;
-  opacity: 0.5;
-  z-index: 1;
+  width: 100%;
+  height: 100%; 
+  overflow: hidden;
 }
-fbody {
+.video-container video {
+  min-width: 100%; 
+  min-height: 100%; 
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+
+nietmeernodigmisschienlaterbody {
   background-image: url("achtergrond.jpg");
   background-position: center center;
   background-repeat: no-repeat;
