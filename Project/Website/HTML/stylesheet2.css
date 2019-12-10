@@ -1,8 +1,37 @@
 body {
-    background-image: url(homepagewllpr.jpg);
+  background-image: url(achtergrond.jpg);
   margin: 0;
-       background-size: cover;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
+}
+.title {
+	font-family: "Optima", sans-serif;
+	color: white;
+}
+.video {
+
+}
+.button {
+  font-family: "Optima", sans-serif;
+  color: #8B0000;
+  padding: 8px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.button {
+  background-color: #8B0000; 
+  color: white; 
+  border: 1px solid #8B0000;
+}
+
+.button:hover {
+  background-color: #8B0000;
+  color: black;
 }
