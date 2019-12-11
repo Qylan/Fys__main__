@@ -15,7 +15,7 @@ body {
 }
 .button {
   font-family: "Optima", sans-serif;
-  color: #8B0000;
+  color: #FF8C00;
   padding: 8px 20px;
   text-align: center;
   text-decoration: none;
@@ -26,12 +26,12 @@ body {
   cursor: pointer;
 }
 .button {
-  background-color: #8B0000; 
+  background-color: #FF8C00; 
   color: white; 
-  border: 1px solid #8B0000;
+  border: 1px solid #FF8C00;
 }
 
 .button:hover {
-  background-color: #8B0000;
+  background-color: #FF8C00;
   color: black;
 }
