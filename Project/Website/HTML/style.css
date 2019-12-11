@@ -77,14 +77,6 @@
   z-index: -1;
 }
 .text {
-  min-width: 100%; 
-  min-height: 100%; 
-  width: auto;
-  height: auto;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
   overflow: hidden;
   color: white;
   z-index: 1
@@ -95,4 +87,16 @@ nietmeernodigmisschienlaterbody {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+}
+div.nl {
+    position: absolute;
+    top: 5px;
+    left: 40%;
+    
+}
+div.eng {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    
 }
