@@ -1,0 +1,69 @@
+#!/usr/bin/python3
+
+import urllib.parse as urlparse
+import requests
+
+def application(environ, start_response):
+    status = '200 OK'
+    response_header = [('Content-type', 'text/html')]
+    start_response(status, response_header)
+
+    html = ''
+    html += '<html>\n'
+    html += '   <head>\n'
+    html += '       <title>Corendon</title>\n'
+    html += '       <link rel="stylesheet" type="text/css" href="../css/LoginPage.css">\n'
+    html += '   </head>\n'
+    html += '   <body>\n'
+
+    method = environ.get('REQUEST_METHOD', '')
+
+    params = {}
+    if method == 'GET':
+        params = urlparse.parse_qs(environ['QUERY_STRING'])
+    elif method == 'POST':
+        input = environ['wsgi.input'].read().decode()
+        params = urlparse.parse_qs(input)
+
+    bestemming = params.get('destination', [''])[0]
+    try:
+        url = 'https://api.openweathermap.org/data/2.5/weather?q={}&appid=6593fe1bcd0a76b50b643861c5b7ed0d&units=metric'.format(bestemming)
+        res = requests.get(url)
+        data = res.json()
+
+        temp = data['main']['temp']
+        temp1 = round(temp, 1)
+        description = data['weather'][0]['description']
+        
+        html += '<div class="video-container">\n'
+        html += '<video autoplay muted loop id="video-container">\n'
+        html += '<source src="../css/videos/achtergrondvideo.mp4" type="video/mp4">\n'
+        html += '</video>\n'
+        html += '</div>\n'
+        html += '<div class=login-page>\n'
+        html += '   <div class=form>\n'
+        html +=         '<img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Corendon_Airlines_Logo_2017.svg" alt="Corendon Logo" class="logo">\n'
+        html +=             '<h1 class="main-title">\n'
+        html +=                 'Local weather in ' + bestemming
+        html +=             '</h1>\n'
+        html += '<h3>\n'
+        html +=  str(temp1) + ' degrees celcius'
+        html += '</h3>\n'
+        html += '<h3>\n'
+        html += description
+        html += '</h3>\n'
+        html += '<form action="http://google.com" >\n'
+        # html +=     '<input type="submit" value="Go to google" />\n'
+        html +=     '<button>Start browsing</button>\n'
+        html += '</form>\n'
+    except:
+        html += '<meta http-equiv="refresh" content="0;url=../html/welcome" />\n'
+
+    html += '   </body>\n'
+    html += '</html>\n'
+    return [bytes(html, 'utf-8')]
+
+if __name__ == '__main__':
+    page = application({}, print)
+    print(page[0].decode())
+

@@ -1,0 +1,92 @@
+ #!/usr/bin/python3
+import requests
+import urllib.parse as urlparse
+import mysql.connector
+import os
+
+def application(environ, start_response):
+    status = '200 OK'
+    response_header = [('Content-type', 'text/html')]
+    start_response(status, response_header)
+
+    html = ''
+    html += '<html>\n'
+    html += '   <head>\n'
+    html += '       <title>Corendon</title>\n'
+    html += '       <link rel="stylesheet" type="text/css" href="../css/LoginPage.css">\n'  
+    html += '   </head>\n'
+    html += '   <body>\n'
+
+    method = environ.get('REQUEST_METHOD', '')
+
+    params = {}
+    if method == 'GET':
+        params = urlparse.parse_qs(environ['QUERY_STRING'])
+    elif method == 'POST':
+        input = environ['wsgi.input'].read().decode()
+        params = urlparse.parse_qs(input)
+
+    mydb = mysql.connector.connect(
+    host="localhost", 
+    user="qylan",
+    passwd="!Qy7@n10",  
+    database="Corendon"
+    )
+
+    naam = params.get('uname', [''])[0]
+    ticket = params.get('pass', [''])[0]
+
+    mycursor = mydb.cursor()       
+    mycursor.execute("SELECT Ticket.destination FROM passenger INNER JOIN Ticket ON passenger.passengerID = Ticket.passenger_passengerID WHERE firstName = %s AND ticketnumber = %s", (naam, ticket))
+    myresult = mycursor.fetchone()
+
+
+    if myresult:
+        destination = myresult[0]
+        ip = os.popen("cat /var/log/apache2/fys_access.log | awk 'END{print $1}'").read().strip()
+        #verkrijgen van IP 
+        os.system("sudo iptables -t nat -I PREROUTING -s " + ip + " -j ACCEPT")
+        os.system("sudo iptables -I FORWARD -s " + ip + " -i wlan0 -o eth0 -j ACCEPT")
+
+        try:
+            url = 'https://api.openweathermap.org/data/2.5/weather?q={}&appid=6593fe1bcd0a76b50b643861c5b7ed0d&units=metric'.format(destination)
+            res = requests.get(url)
+            data = res.json()
+
+            temp = data['main']['temp']
+            temp1 = round(temp, 1)
+            description = data['weather'][0]['description']
+                
+            html += '<div class="video-container">\n'
+            html += '<video autoplay muted loop id="video-container">\n'
+            html += '<source src="../css/videos/achtergrondvideo.mp4" type="video/mp4">\n'
+            html += '</video>\n'
+            html += '</div>\n'
+            html += '<div class=login-page>\n'
+            html += '   <div class=form>\n'
+            html +=         '<img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Corendon_Airlines_Logo_2017.svg" alt="Corendon Logo" class="logo">\n'
+            html +=             '<h1 class="main-title">\n'
+            html +=                 'Local weather in ' + destination
+            html +=             '</h1>\n'
+            html += '<h3>\n'
+            html +=  str(temp1) + ' degrees celcius'
+            html += '</h3>\n'
+            html += '<h3>\n'
+            html += description
+            html += '</h3>\n'
+            html += '<form action="http://google.com" >\n'
+            html +=     '<button>Start browsing</button>\n'
+            html += '</form>\n'
+        except:
+            html += '<meta http-equiv="refresh" content="0; URL=../html/welcome.html">'  
+    else:
+        html += '<meta http-equiv="refresh" content="0;url=../html/tryagain" />\n'
+        html += '   </body>\n'
+        html += '</html>\n'
+
+
+    return [bytes(html, 'utf-8')]
+
+if __name__ == '__main__':
+    page = application({}, print)
+    print(page[0].decode())

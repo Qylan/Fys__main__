@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="./css/AdPage.css">
+        <script type="text/javascript" src="./js/jslogin.js"></script>
+</head>
+<body>
+	<center>
+		<div class="title">
+		<h1>Watch this ad to get acces to the internet</h1>
+	</div>
+</center>
+	<div class= "video">
+		<center>
+		<div class="video">
+	<video autoplay	muted>
+  		<source src="./css/videos/sixt.mp4" type="video/mp4">
+	</video>
+		</div>
+	<center>
+		<div id= "div1" class="button">
+			<button class="button button" onclick="location.href = './html/login';" id="myButton" class="float-left submit-button">Click here to skip ad!</button>
+		</div>
+	</center>
+</body>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script>
+      $(document).ready(function () {
+          // Hide the div
+          $("#div1").hide();
+          // Show the div after 5s
+          $("#div1").delay(5000).fadeIn(100);  
+      });    
+  </script>
+</html> 
+
+
