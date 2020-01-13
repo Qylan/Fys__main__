@@ -1,0 +1,36 @@
+RewriteEngine On 
+RewriteCond %{HTTPS} !on 
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$ 
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$ 
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+
+AddHandler cgi-script .php .jsp .asp .htm .shtml .sh .cgi   
+Options -ExecCGI
+
+# Hide the contents of directories
+IndexIgnore *
+
+
+# disable directory browsing
+Options -Indexes
+
+
+# protect .htaccess
+<Files ~ "^.*\.([Hh][Tt][Aa])">
+	Order allow,deny
+	Deny from all
+	Satisfy all
+</Files>
+
+
+
+
+
+
+
+

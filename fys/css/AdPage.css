@@ -1,0 +1,37 @@
+body {
+  background-image: url(./Images/achtergrond.jpg);
+  margin: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+.title {
+	font-family: "Optima", sans-serif;
+	color: white;
+}
+.video {
+
+}
+.button {
+  font-family: "Optima", sans-serif;
+  color: #FF8C00;
+  padding: 8px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.button {
+  background-color: #FF8C00; 
+  color: white; 
+  border: 1px solid #FF8C00;
+}
+
+.button:hover {
+  background-color: #FF8C00;
+  color: black;
+}
